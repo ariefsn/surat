@@ -28,16 +28,24 @@ export class HttpResponse<T> {
 type ApiResponseWithOptions<TModel extends Type<any>> = {
   status: number;
   description?: string;
-  type: TModel;
+  type?: TModel;
 };
 
 export function ApiResponseWith<TModel extends Type<any>>(
   options: ApiResponseWithOptions<TModel>,
 ) {
-  const isPrimitive = [String, Number, Boolean].includes(options.type as any);
+  const actualType = options.type ?? String;
+
+  const primitiveMap = new Map<any, string>([
+    [String, 'string'],
+    [Number, 'number'],
+    [Boolean, 'boolean'],
+  ]);
+
+  const isPrimitive = primitiveMap.has(actualType);
 
   return applyDecorators(
-    ApiExtraModels(HttpResponse, options.type),
+    ApiExtraModels(HttpResponse, ...(isPrimitive ? [] : [actualType])),
     ApiResponse({
       status: options.status,
       description: options.description,
@@ -47,8 +55,8 @@ export function ApiResponseWith<TModel extends Type<any>>(
           {
             properties: {
               data: isPrimitive
-                ? { type: (options.type as any).name.toLowerCase() } // string | number | boolean
-                : { $ref: getSchemaPath(options.type as Type<any>) },
+                ? { type: primitiveMap.get(actualType), nullable: true }
+                : { $ref: getSchemaPath(actualType), nullable: true },
             },
           },
         ],

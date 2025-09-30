@@ -23,6 +23,10 @@ export class EmailController {
     description: 'OK',
     type: SendMailResult,
   })
+  @ApiResponseWith({
+    status: 400,
+    description: 'Bad Request',
+  })
   @ApiOperation({ operationId: 'EmailSend' })
   async send(@Body() body: EmailPayload) {
     try {

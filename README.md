@@ -122,6 +122,7 @@ The service provides several **custom Handlebars helpers** out of the box, so yo
   Hello {{name}},  
   You have {{add unreadCount 1}} unread messages.
 </mj-text>
+```
 
 ---
 

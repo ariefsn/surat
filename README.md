@@ -23,7 +23,21 @@ docker pull ariefsn/surat:latest
 
 ### Run container
 ```bash
-docker run -d   -p 3000:3000   -e PORT=3000   -e SMTP_HOST=smtp.example.com   -e SMTP_PORT=587   -e SMTP_USER=myuser   -e SMTP_PASSWORD=mypassword   -e SMTP_SECURE=false   -e DEFAULT_SENDER_EMAIL=no-reply@example.com   -e DEFAULT_SENDER_NAME="My App"   --name surat   ariefsn/surat:latest
+docker run -d \
+  -p 3000:3000 \
+  -e PORT=3000 \
+  -e SMTP_HOST=smtp.example.com \
+  -e SMTP_PORT=587 \
+  -e SMTP_USER=myuser \
+  -e SMTP_PASSWORD=mypassword \
+  -e SMTP_SECURE=false \
+  -e DEFAULT_SENDER_EMAIL=no-reply@example.com \
+  -e DEFAULT_SENDER_NAME="Surat" \
+  -e SMTP_POOL=true \
+  -e SMTP_MAX_CONNECTIONS=10 \
+  -e SMTP_MAX_MESSAGES=100 \
+  --name surat \
+  ariefsn/surat:latest
 ```
 
 ### Docker Compose
@@ -44,8 +58,11 @@ services:
       SMTP_USER: myuser
       SMTP_PASSWORD: mypassword
       SMTP_SECURE: "false"
+      SMTP_POOL: "true"
+      SMTP_MAX_CONNECTIONS: "10"
+      SMTP_MAX_MESSAGES: "100"
       DEFAULT_SENDER_EMAIL: no-reply@example.com
-      DEFAULT_SENDER_NAME: "My App"
+      DEFAULT_SENDER_NAME: "Surat"
 ```
 
 ---
@@ -80,7 +97,7 @@ SMTP_USER=myuser
 SMTP_PASSWORD=mypassword
 SMTP_SECURE=false
 DEFAULT_SENDER_EMAIL=no-reply@example.com
-DEFAULT_SENDER_NAME=My App
+DEFAULT_SENDER_NAME=Surat
 ```
 
 ---

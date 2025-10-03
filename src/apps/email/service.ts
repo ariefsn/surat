@@ -5,15 +5,17 @@ import { IEnv, IEnvEmailAccount, ISmtpConfig } from 'src/lib/models';
 import { EmailPayload } from 'src/lib/models/email';
 import nodeMailer = require('nodemailer');
 import Mjml = require('mjml');
-import SMTPTransport = require('nodemailer/lib/smtp-transport');
 import Mail = require('nodemailer/lib/mailer');
+import SMTPPool = require('nodemailer/lib/smtp-pool');
+
+type TClient = nodeMailer.Transporter<
+  SMTPPool.SentMessageInfo,
+  SMTPPool.Options
+>;
 
 @Injectable()
 export class EmailService {
-  client: nodeMailer.Transporter<
-    SMTPTransport.SentMessageInfo,
-    SMTPTransport.Options
-  >;
+  client: TClient;
 
   defaultSender: IEnvEmailAccount;
 
@@ -30,14 +32,18 @@ export class EmailService {
         user: smtpConfig?.auth.user,
         pass: smtpConfig?.auth.pass,
       },
+      pool: smtpConfig?.pool || true,
+      maxConnections: smtpConfig?.maxConnections || 10,
+      maxMessages: smtpConfig?.maxMessages || 100,
     });
 
     this.client = transporter;
   }
 
-  async send(
-    payload: EmailPayload,
-  ): Promise<{ email: SMTPTransport.SentMessageInfo; html: string }> {
+  async send(payload: EmailPayload): Promise<{
+    email: SMTPPool.SentMessageInfo;
+    html: string;
+  }> {
     const isMjml = payload.body.includes('<mjml>');
     let body = payload.body;
     if (isMjml) {

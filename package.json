@@ -1,6 +1,6 @@
 {
   "name": "surat",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "mini email app with mailtrap and mjml",
   "author": "Arief Setiyo Nugroho",
   "private": true,

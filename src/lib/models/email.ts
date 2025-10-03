@@ -96,13 +96,16 @@ export class EmailInfoDto {
   @ApiProperty({ type: [String] })
   ehlo: string[];
 
-  @ApiProperty({ type: [String] })
+  @ApiProperty()
   envelopeTime: number;
 
-  @ApiProperty({ type: [String] })
+  @ApiProperty()
+  messageId: string;
+
+  @ApiProperty()
   messageTime: number;
 
-  @ApiProperty({ type: [String] })
+  @ApiProperty()
   messageSize: number;
 
   @ApiProperty()
@@ -110,9 +113,6 @@ export class EmailInfoDto {
 
   @ApiProperty({ type: 'object', additionalProperties: false })
   envelope: Record<string, any>;
-
-  @ApiProperty()
-  messageId: string;
 }
 
 export class SendMailResult {

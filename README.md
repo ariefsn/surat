@@ -60,6 +60,9 @@ services:
 | `SMTP_USER`            | ✅       | –       | SMTP username |
 | `SMTP_PASSWORD`        | ✅       | –       | SMTP password |
 | `SMTP_SECURE`          | ❌       | `false` | Enable TLS/SSL (`true` / `false`) |
+| `SMTP_POOL`            | ❌       | `true`  | Enable connection pooling (`true` / `false`) |
+| `SMTP_MAX_CONNECTIONS` | ❌       | `10`    | Max SMTP connections per pool |
+| `SMTP_MAX_MESSAGES`    | ❌       | `100`   | Max messages per connection |
 | `DEFAULT_SENDER_EMAIL` | ✅       | –       | Default sender email address |
 | `DEFAULT_SENDER_NAME`  | ✅       | –       | Default sender display name |
 

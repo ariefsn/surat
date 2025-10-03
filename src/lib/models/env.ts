@@ -11,6 +11,9 @@ export interface ISmtpConfig {
     user: string;
     pass: string;
   };
+  pool: boolean;
+  maxConnections: number;
+  maxMessages: number;
 }
 
 export interface IEnv {

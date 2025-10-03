@@ -15,6 +15,9 @@ const Env = (): IEnv => ({
       user: process.env.SMTP_USER || '',
       pass: process.env.SMTP_PASSWORD || '',
     },
+    pool: process.env.SMTP_POOL === 'true',
+    maxConnections: parseInt(process.env.SMTP_MAX_CONNECTIONS || '10', 10),
+    maxMessages: parseInt(process.env.SMTP_MAX_MESSAGES || '100', 10),
   },
 });
 

@@ -18,6 +18,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
+    "docker:login": "docker login",
+    "docker:logout": "docker logout",
     "docker:build": "docker buildx build --platform linux/amd64,linux/arm64 -t ariefsn/surat:latest --push ."
   },
   "dependencies": {

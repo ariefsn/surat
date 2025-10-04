@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { handlebars } from 'src/lib/helper';
+import { handlebars, JsonError, logger } from 'src/lib/helper';
 import { IEnv, IEnvEmailAccount, ISmtpConfig } from 'src/lib/models';
 import { EmailPayload } from 'src/lib/models/email';
 import nodeMailer = require('nodemailer');
@@ -66,36 +66,41 @@ export class EmailService {
       headers['X-MT-Custom-Variables'] = JSON.stringify(payload.tags);
     }
 
-    const res = await this.client.sendMail({
-      from: from,
-      to: payload.to.map((t) => ({
-        address: t.email,
-        name: t.name ?? '',
-      })),
-      subject: payload.subject,
-      text: payload.text,
-      attachments: payload.attachments?.map((attachment) => ({
-        content: attachment.content,
-        filename: attachment.filename,
-        type: attachment.type,
-        disposition: attachment.disposition,
-        content_id: attachment.contentId,
-      })),
-      cc: payload.cc?.map((t) => ({
-        address: t.email,
-        name: t.name ?? '',
-      })),
-      bcc: payload.bcc?.map((t) => ({
-        address: t.email,
-        name: t.name ?? '',
-      })),
-      html,
-      headers,
-    });
+    try {
+      const res = await this.client.sendMail({
+        from: from,
+        to: payload.to.map((t) => ({
+          address: t.email,
+          name: t.name ?? '',
+        })),
+        subject: payload.subject,
+        text: payload.text,
+        attachments: payload.attachments?.map((attachment) => ({
+          content: attachment.content,
+          filename: attachment.filename,
+          type: attachment.type,
+          disposition: attachment.disposition,
+          content_id: attachment.contentId,
+        })),
+        cc: payload.cc?.map((t) => ({
+          address: t.email,
+          name: t.name ?? '',
+        })),
+        bcc: payload.bcc?.map((t) => ({
+          address: t.email,
+          name: t.name ?? '',
+        })),
+        html,
+        headers,
+      });
 
-    return {
-      email: res,
-      html,
-    };
+      return {
+        email: res,
+        html,
+      };
+    } catch (error) {
+      logger.error('Send email failed. Error: ' + error);
+      throw JsonError(error?.message);
+    }
   }
 }

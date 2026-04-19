@@ -19,6 +19,7 @@ const Env = (): IEnv => ({
     maxConnections: parseInt(process.env.SMTP_MAX_CONNECTIONS || '10', 10),
     maxMessages: parseInt(process.env.SMTP_MAX_MESSAGES || '100', 10),
   },
+  bodyLimit: process.env.BODY_LIMIT || '10mb',
 });
 
 export default Env;

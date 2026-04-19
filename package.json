@@ -1,10 +1,10 @@
 {
   "name": "surat",
-  "version": "0.0.2",
-  "description": "mini email app with mailtrap and mjml",
+  "version": "0.0.3",
+  "description": "mini email app with handlebars and mjml",
   "author": "Arief Setiyo Nugroho",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "MIT",
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",

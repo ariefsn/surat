@@ -36,6 +36,7 @@ docker run -d \
   -e SMTP_POOL=true \
   -e SMTP_MAX_CONNECTIONS=10 \
   -e SMTP_MAX_MESSAGES=100 \
+  -e BODY_LIMIT=10mb \
   --name surat \
   ariefsn/surat:latest
 ```
@@ -63,6 +64,7 @@ services:
       SMTP_MAX_MESSAGES: "100"
       DEFAULT_SENDER_EMAIL: no-reply@example.com
       DEFAULT_SENDER_NAME: "Surat"
+      BODY_LIMIT: "10mb"
 ```
 
 ---
@@ -82,6 +84,7 @@ services:
 | `SMTP_MAX_MESSAGES`    | ❌       | `100`   | Max messages per connection |
 | `DEFAULT_SENDER_EMAIL` | ✅       | –       | Default sender email address |
 | `DEFAULT_SENDER_NAME`  | ✅       | –       | Default sender display name |
+| `BODY_LIMIT`           | ❌       | `10mb`  | Body limit for requests |
 
 💡 You can store them in a `.env` file and run with:
 ```bash
@@ -98,6 +101,7 @@ SMTP_PASSWORD=mypassword
 SMTP_SECURE=false
 DEFAULT_SENDER_EMAIL=no-reply@example.com
 DEFAULT_SENDER_NAME=Surat
+BODY_LIMIT=10mb
 ```
 
 ---

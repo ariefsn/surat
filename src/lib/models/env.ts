@@ -21,4 +21,5 @@ export interface IEnv {
   port: number;
   defaultSender: IEnvEmailAccount;
   smtp: ISmtpConfig;
+  bodyLimit: string;
 }

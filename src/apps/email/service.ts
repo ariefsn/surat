@@ -44,14 +44,11 @@ export class EmailService {
     email: SMTPPool.SentMessageInfo;
     html: string;
   }> {
-    const isMjml = payload.body.includes('<mjml>');
-    let body = payload.body;
-    if (isMjml) {
-      body = Mjml(payload.body).html;
-    }
+    const template = handlebars.compile(payload.body);
+    const rendered = template(payload.variables);
 
-    const template = handlebars.compile(body);
-    const html = template(payload.variables);
+    const isMjml = rendered.includes('<mjml>');
+    const html = isMjml ? Mjml(rendered).html : rendered;
     const from = `${payload.from.name || this.defaultSender.name} <${payload.from.email || this.defaultSender.email}>`;
 
     const headers: Mail.Headers = {
